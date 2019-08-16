@@ -23,10 +23,6 @@ $ fontello-offline-cli --path C:\SvgSourceFolder
 $ fontello-offline-cli --path "C:\Svg Source Folder"
 ```
 
-## Self Hosted Fontello Server
-
-If you want to host your own Fontello Server, give a try [Fontello Server Docker Image](https://hub.docker.com/r/luchenatwork/fontello-server).
-
 ## Example Svg Files Source Folder
 
 ![](https://raw.githubusercontent.com/luchenatwork/Fontello-Offline-CLI/master/doc/source.png)

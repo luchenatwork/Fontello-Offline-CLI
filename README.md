@@ -21,6 +21,7 @@ $ fontello-offline-cli --help
 $ fontello-offline-cli --version
 $ fontello-offline-cli --path C:\SvgSourceFolder
 $ fontello-offline-cli --path "C:\Svg Source Folder"
+$ fontello-offline-cli --path "C:\Svg Source Folder" --name "custom font name" --owner "font owner"
 ```
 
 ## Example Svg Files Source Folder
@@ -29,7 +30,7 @@ $ fontello-offline-cli --path "C:\Svg Source Folder"
 
 ## Example Command Output Folder
 
-A folder named after fontello-xxxxxxxx, e.g., fontello-663c06f5, will be created at current command line working folder.
+A folder named after webfonts, will be created at current command line working folder.
 Output folder structure will look like below
 
 ![](https://raw.githubusercontent.com/luchenatwork/Fontello-Offline-CLI/master/doc/target.png)

@@ -32,7 +32,6 @@ html
           text-decoration underline
 
       .the-icons
-        font-size 14px
         line-height 24px
 
       .switch
@@ -46,19 +45,17 @@ html
       .codesOn
         .i-name
           display none
+          font-size 14px
         .i-code
           display inline
+          font-size 14px
       .i-code
         display none
 
     - var rnd = Math.floor(Math.random()*100000000);
     | @font-face {
     |   font-family: '#{font.fontname}';
-    |   src: url('./font/#{font.fontname}.eot?#{rnd}');
-    |   src: url('./font/#{font.fontname}.eot?#{rnd}#iefix') format('embedded-opentype'),
-    |        url('./font/#{font.fontname}.woff?#{rnd}') format('woff'),
-    |        url('./font/#{font.fontname}.ttf?#{rnd}') format('truetype'),
-    |        url('./font/#{font.fontname}.svg?#{rnd}##{font.fontname}') format('svg');
+    |   src: url('./font/#{font.fontname}.woff2?#{rnd}') format('woff2');
     |   font-weight: normal;
     |   font-style: normal;
     | }
@@ -69,6 +66,7 @@ html
     |   font-family: "#{font.fontname}";
     |   font-style: normal;
     |   font-weight: normal;
+    |   font-size: 64px;
     |   speak: none;
     | 
     |   display: inline-block;
@@ -148,7 +146,8 @@ html
                   class='demo-icon'
                   class=css_class
                 ) !{'&#x' + code + ';'}
-                |  
+                |
+                br()
                 span.i-name #{css_name}
                 span.i-code 0x#{code}
 

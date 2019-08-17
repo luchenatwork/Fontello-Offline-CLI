@@ -1,5 +1,3 @@
-// Working procedure for the font builder queue.
-//
 'use strict';
 
 const Promise = require('bluebird');
@@ -35,12 +33,12 @@ _.forEach(
     'README.txt': 'README.txt'
   },
   (outputName, inputName) => {
-    let inputFile = path.join(TEMPLATES_DIR, inputName);
-    let inputData = fs.readFileSync(inputFile, 'utf8');
+    const inputFile = path.join(TEMPLATES_DIR, inputName);
+    const inputData = fs.readFileSync(inputFile, 'utf8');
     let outputData;
 
     switch (path.extname(inputName)) {
-      case '.pug': // Pug template.
+      case '.pug':
         outputData = pug.compile(inputData, {
           pretty: true,
           filename: inputFile,
@@ -48,12 +46,11 @@ _.forEach(
         });
         break;
 
-      case '.tpl': // Lodash template.
+      case '.tpl':
         outputData = _.template(inputData);
         break;
 
       default:
-        // Static file - just do a copy.
         outputData = () => inputData;
         break;
     }
@@ -63,12 +60,8 @@ _.forEach(
 );
 
 module.exports = async function fontWorker(taskInfo) {
-  let fontname = taskInfo.builderConfig.font.fontname;
-  let files;
-
-  // Collect file paths.
-  //
-  files = {
+  const fontname = taskInfo.builderConfig.font.fontname;
+  const files = {
     config: path.join(taskInfo.tmpDir, 'config.json'),
     svg: path.join(taskInfo.tmpDir, 'font', `${fontname}.svg`),
     ttf: path.join(taskInfo.tmpDir, 'font', `${fontname}.ttf`),
@@ -78,10 +71,7 @@ module.exports = async function fontWorker(taskInfo) {
     woff2: path.join(taskInfo.tmpDir, 'font', `${fontname}.woff2`)
   };
 
-  // Generate initial SVG font.
-  //
-  /*eslint-disable new-cap*/
-  let svgOutput = SVG_FONT_TEMPLATE(taskInfo.builderConfig);
+  const svgOutput = SVG_FONT_TEMPLATE(taskInfo.builderConfig);
 
   // Prepare temporary working directory.
   //
@@ -90,48 +80,29 @@ module.exports = async function fontWorker(taskInfo) {
   await mkdirp(path.join(taskInfo.tmpDir, 'font'));
   await mkdirp(path.join(taskInfo.tmpDir, 'css'));
 
-  // Write clinet config and initial SVG font.
-  //
-  let configOutput = JSON.stringify(taskInfo.clientConfig, null, '  ');
-
+  const configOutput = JSON.stringify(taskInfo.clientConfig, null, '  ');
   await mz.fs.writeFile(files.config, configOutput, 'utf8');
   await mz.fs.writeFile(files.svg, svgOutput, 'utf8');
 
-  // Convert SVG to TTF
-  //
-  let ttf = svg2ttf(svgOutput, {
+  const ttf = svg2ttf(svgOutput, {
     copyright: taskInfo.builderConfig.font.copyright
   });
-
   await mz.fs.writeFile(files.ttf, ttf.buffer);
 
-  // Read the resulting TTF to produce EOT and WOFF.
-  //
-  let ttfOutput = new Uint8Array(await mz.fs.readFile(files.ttf));
-
-  // Convert TTF to EOT.
-  //
-  let eotOutput = ttf2eot(ttfOutput).buffer;
-
+  const ttfOutput = new Uint8Array(await mz.fs.readFile(files.ttf));
+  const eotOutput = ttf2eot(ttfOutput).buffer;
   await mz.fs.writeFile(files.eot, eotOutput);
 
-  // Convert TTF to WOFF.
-  //
-  let woffOutput = ttf2woff(ttfOutput).buffer;
-
+  const woffOutput = ttf2woff(ttfOutput).buffer;
   await mz.fs.writeFile(files.woff, woffOutput);
 
-  // Convert TTF to WOFF2.
-  //
-  let woff2Output = await wawoff2.compress(ttfOutput);
-
+  const woff2Output = await wawoff2.compress(ttfOutput);
   await mz.fs.writeFile(files.woff2, woff2Output);
 
-  let templatesNames = Object.keys(TEMPLATES);
-
+  const templatesNames = Object.keys(TEMPLATES);
   for (let i = 0; i < templatesNames.length; i++) {
-    let templateName = templatesNames[i];
-    let templateData = TEMPLATES[templateName];
+    const templateName = templatesNames[i];
+    const templateData = TEMPLATES[templateName];
 
     if (
       templateName === 'LICENSE.txt' &&
@@ -140,11 +111,9 @@ module.exports = async function fontWorker(taskInfo) {
       continue;
     }
 
-    let outputName = templateName.replace('${FONTNAME}', fontname);
-    let outputFile = path.join(taskInfo.tmpDir, outputName);
-    let outputData = templateData(taskInfo.builderConfig);
-
-    outputData = outputData
+    const outputName = templateName.replace('${FONTNAME}', fontname);
+    const outputFile = path.join(taskInfo.tmpDir, outputName);
+    const outputData = templateData(taskInfo.builderConfig)
       .replace('%WOFF64%', b64.fromByteArray(woffOutput))
       .replace('%TTF64%', b64.fromByteArray(ttfOutput));
 

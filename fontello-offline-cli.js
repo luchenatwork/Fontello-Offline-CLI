@@ -58,7 +58,7 @@ const taskInfo = {
   fontId: data.fontId,
   clientConfig: data.config,
   builderConfig,
-  tmpDir: path.join(path.basename(path.resolve()), 'webfonts'),
+  tmpDir: path.join(path.resolve(), 'webfonts'),
   timestamp: Date.now(),
   result: null
 };

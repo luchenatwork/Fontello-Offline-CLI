@@ -83,6 +83,6 @@
   - chr = unichr(g.code)
   != '\n'
   - if (0xffff < g.code)
-    | .#{css}:before { content: '#{chr}'; } /* '#{hex}' */
+    | .#{css}:before { content: '#{chr}'; }
   - else
-    | .#{css}:before { content: '#{hex}'; } /* '#{chr}' */
+    | .#{css}:before { content: '#{hex}'; }

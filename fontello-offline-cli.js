@@ -27,6 +27,14 @@ parser.addArgument(['-o', '--owner'], {
   help: 'Font Owner, e.g., SomeCompany, "Smith John"',
   required: false
 });
+parser.addArgument(['-rp', '--removeprefix'], {
+  help: 'Remove Prefix, e.g., "Icon ", "Icon-"',
+  required: false
+});
+parser.addArgument(['-rs', '--removesuffix'], {
+  help: 'Remove Suffix, e.g., " 24px", "-24px"',
+  required: false
+});
 const args = parser.parseArgs();
 
 var allocatedRefCode = 0xe800;
@@ -34,10 +42,10 @@ const svgFilesPath = args.path;
 const svgFiles = filterSvgFiles(svgFilesPath);
 var glyphs = [];
 
-svgFiles.forEach(createGlyph());
+svgFiles.forEach(createGlyph(args.removeprefix, args.removesuffix));
 
 const output = {
-  name: args.name ? args.name.toLowerCase() : null,
+  name: args.name ? args.name : null,
   css_prefix_text: '',
   css_use_suffix: false,
   hinting: false,
@@ -118,7 +126,7 @@ function fontConfig(clientConfig) {
 
   let fontname;
   if (!_.isEmpty(clientConfig.name)) {
-    fontname = String(clientConfig.name).replace(/[^a-z0-9\-_]+/g, '-');
+    fontname = String(clientConfig.name).replace(/[^A-Za-z0-9\-_]+/g, '-').toLowerCase();
   } else {
     fontname = 'fontello';
   }
@@ -133,8 +141,8 @@ function fontConfig(clientConfig) {
   return {
     font: {
       fontname,
-      fullname: fontname,
-      familyname: fontname,
+      fullname: clientConfig.name,
+      familyname: clientConfig.name,
       copyright: clientConfig.copyright || defaultCopyright,
       ascent: clientConfig.ascent,
       descent: clientConfig.ascent - clientConfig.units_per_em,
@@ -151,10 +159,12 @@ function fontConfig(clientConfig) {
   };
 }
 
-function createGlyph() {
+function createGlyph(removeprefix, removesuffix) {
   return function(svgFile) {
     var path = require('path');
-    var glyphName = path.basename(svgFile, '.svg').replace(/\s/g, '-');
+    removeprefix = removeprefix || '';
+    removesuffix = removesuffix || '';
+    var glyphName = path.basename(svgFile, '.svg').replace(removeprefix, '').replace(removesuffix, '').replace(/\s/g, '');
     var data = fs.readFileSync(svgFile, 'utf-8');
     var result = svgFlatten(data);
     if (result.error) {

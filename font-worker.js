@@ -26,6 +26,7 @@ _.forEach(
     'css/css.pug': 'css/${FONTNAME}.css',
     'css/css-ie7.pug': 'css/${FONTNAME}-ie7.css',
     'css/css-codes.pug': 'css/${FONTNAME}-codes.css',
+    'css/scss-codes.pug': 'css/${FONTNAME}-codes.scss',
     'css/css-ie7-codes.pug': 'css/${FONTNAME}-ie7-codes.css',
     'css/css-embedded.pug': 'css/${FONTNAME}-embedded.css',
     'LICENSE.pug': 'LICENSE.txt',

@@ -18,6 +18,6 @@
   - chr = unichr(g.code)
   != '\n'
   - if (0xffff < g.code)
-    | .#{css}:before { content: '#{chr}'; }
+    | .#{css} { &:before { content: '#{chr}'; } }
   - else
-    | .#{css}:before { content: '#{hex}'; }
+    | .#{css} { &:before { content: '#{hex}'; } }

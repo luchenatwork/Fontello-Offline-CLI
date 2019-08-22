@@ -102,6 +102,7 @@ html
       - var col_class = "span" + Math.ceil(12 / meta.columns)
       - var rows_total = Math.ceil(glyphs.length / meta.columns)
       - function pad(s) { return s.length === 3 ? '0' + s : s; }
+      - var classPrefix = outputprefix == '' ? '' : outputprefix + '-';
       - for (var row = 0; row < rows_total; row++)
 
         .row
@@ -109,7 +110,7 @@ html
 
             - var g = glyphs[row*meta.columns + col]
 
-            - var css_class = css_name = meta.css_use_suffix ? (g.css || g.file) + meta.css_prefix_text : meta.css_prefix_text + (g.css || g.file)
+            - var css_class = css_name = classPrefix + (meta.css_use_suffix ? (g.css || g.file) + meta.css_prefix_text : meta.css_prefix_text + (g.css || g.file))
 
             - if (g['css-ext']) css_class += ' ' + g['css-ext']
 

@@ -35,6 +35,10 @@ parser.addArgument(['-rs', '--removesuffix'], {
   help: 'Remove Suffix, e.g., " 24px", "-24px"',
   required: false
 });
+parser.addArgument(['-op', '--outputprefix'], {
+  help: 'CSS Class Prefix, e.g., "google-icon", "your-icon"',
+  required: false
+});
 const args = parser.parseArgs();
 
 var allocatedRefCode = 0xe800;
@@ -61,7 +65,7 @@ const data = {
   fontId: uid(),
   config: output
 };
-const builderConfig = fontConfig(data.config);
+const builderConfig = fontConfig(data.config, args.outputprefix);
 const taskInfo = {
   fontId: data.fontId,
   clientConfig: data.config,
@@ -110,7 +114,7 @@ function collectGlyphsInfo(clientConfig) {
   return result;
 }
 
-function fontConfig(clientConfig) {
+function fontConfig(clientConfig, outputprefix) {
   if (clientConfig.fullname === 'undefined') {
     delete clientConfig.fullname;
   }
@@ -155,7 +159,8 @@ function fontConfig(clientConfig) {
       css_use_suffix: Boolean(clientConfig.css_use_suffix)
     },
     glyphs: glyphsInfo,
-    fonts_list: []
+    fonts_list: [],
+    outputprefix: outputprefix || ''
   };
 }
 
@@ -164,7 +169,13 @@ function createGlyph(removeprefix, removesuffix) {
     var path = require('path');
     removeprefix = removeprefix || '';
     removesuffix = removesuffix || '';
-    var glyphName = path.basename(svgFile, '.svg').replace(removeprefix, '').replace(removesuffix, '').replace(/\s/g, '');
+    var glyphName = path.basename(svgFile, '.svg')
+      .replace(removeprefix, '')
+      .replace(removesuffix, '')
+      .replace(/\s/g, '-')
+      .replace('---', '-')
+      .replace('--', '-')
+      .toLowerCase();
     var data = fs.readFileSync(svgFile, 'utf-8');
     var result = svgFlatten(data);
     if (result.error) {

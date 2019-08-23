@@ -94,9 +94,9 @@ html
 
   body
     .container.header
-      h1 #{font.fullname}
+      h1 #{font.fullname.toUpperCase()}
         |  
-        small font demo
+        small icons
 
     #icons.container
       - var col_class = "span" + Math.ceil(12 / meta.columns)

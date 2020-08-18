@@ -11,8 +11,6 @@ const wawoff2 = require('wawoff2');
 const svg2ttf = require('svg2ttf');
 const pug = require('pug');
 const b64 = require('base64-js');
-const rimraf = Promise.promisify(require('rimraf'));
-const mkdirp = Promise.promisify(require('mkdirp'));
 
 const TEMPLATES_DIR = path.join(__dirname, 'templates');
 const TEMPLATES = {};
@@ -76,10 +74,10 @@ module.exports = async function fontWorker(taskInfo) {
 
   // Prepare temporary working directory.
   //
-  await rimraf(taskInfo.tmpDir);
-  await mkdirp(taskInfo.tmpDir);
-  await mkdirp(path.join(taskInfo.tmpDir, 'font'));
-  await mkdirp(path.join(taskInfo.tmpDir, 'css'));
+  await fs.promises.rmdir(taskInfo.tmpDir, { recursive: true });
+  await fs.promises.mkdir(taskInfo.tmpDir, { recursive: true });
+  await fs.promises.mkdir(path.join(taskInfo.tmpDir, 'font'), { recursive: true });
+  await fs.promises.mkdir(path.join(taskInfo.tmpDir, 'css'), { recursive: true });
 
   const configOutput = JSON.stringify(taskInfo.clientConfig, null, '  ');
   await mz.fs.writeFile(files.config, configOutput, 'utf8');

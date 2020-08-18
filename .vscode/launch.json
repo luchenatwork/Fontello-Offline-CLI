@@ -16,7 +16,7 @@
         "-n=SAI360",
         "-o=Sai360",
         "-op=sai-icon",
-        "-p=.\\..\\webfonts"
+        "-p=svgs"
       ]
     }
   ]

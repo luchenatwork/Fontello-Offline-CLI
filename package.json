@@ -1,6 +1,6 @@
 {
   "name": "fontello-offline-cli",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Offline command line interface for Fontello.",
   "main": "fontello-offline-cli.js",
   "bin": {

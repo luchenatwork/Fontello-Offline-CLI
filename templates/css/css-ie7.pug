@@ -1,7 +1,7 @@
 - if (!meta.css_use_suffix)
-  | [class^="#{outputprefix-"], [class*=" #{outputprefix-"]
+  | [class^="#{outputprefix}-"], [class*=" #{outputprefix}-"]
 - else
-  | [class$="-#{meta.css_prefix_text}"], [class*="-#{meta.css_prefix_text} "]
+  | [class$="-#{outputprefix}"], [class*="-#{outputprefix} "]
 
 | {
 |   font-family: '#{font.fontname}';

@@ -33,9 +33,9 @@
 |
 |
 - if (!meta.css_use_suffix)
-  | [class^="#{meta.css_prefix_text}-"]:before, [class*=" #{meta.css_prefix_text}-"]:before
+  | [class^="#{outputprefix-"]:before, [class*=" #{outputprefix-"]:before
 - else
-  | [class$="#{meta.css_prefix_text}-"]:before, [class*="-#{meta.css_prefix_text} "]:before
+  | [class$="#{outputprefix-"]:before, [class*="-#{meta.css_prefix_text} "]:before
 
 | {
 |   font-family: "#{font.fontname}";

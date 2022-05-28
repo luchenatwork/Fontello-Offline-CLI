@@ -50,7 +50,7 @@ svgFiles.forEach(createGlyph(args.removeprefix, args.removesuffix));
 
 const output = {
   name: args.name ? args.name : null,
-  css_prefix_text: '',
+  css_prefix_text: args.outputprefix || '',
   css_use_suffix: false,
   hinting: false,
   units_per_em: 1000,
